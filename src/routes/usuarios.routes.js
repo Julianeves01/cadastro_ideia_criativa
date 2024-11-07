@@ -11,12 +11,14 @@ let usuarios = [
         feedback: "muito bom, adorei",
     },
     {
+        id: Math.floor(Math.random() * 1000000),
         "titulo": "flavinha topper",
         "categorias": ["animação", "moda", "musical"],
         "prioridade": "alta",
         "feedback": "o mais top do brasil"
     },
     {
+        id: Math.floor(Math.random() * 1000000),
         "titulo": "os devs",
         "categorias": ["terror", "acao", "suspense"],
         "prioridade": "baixa",
@@ -34,23 +36,22 @@ usuariosRoutes.get("/", (req, res) => {
     });
 });
 
-
-
 usuariosRoutes.post("/", (req, res) => {
     const {
-        id,
         titulo,
         categorias,
         prioridade,
         feedback
     } = req.body;
     
-    if(!titulo || !feedback) {
-        return res.status(400).send({ message: "Insira um título e um feedback válido!" });
+    if (!titulo || !feedback) {
+        return res.status(404).json({
+            message: "Insira um título ou um feedback válido!",
+        });
     }
 
     if(prioridade != "baixa" && prioridade != "média" && prioridade != "alta") {
-        return res.status(400).send({ message: "classifique a prioridade como 'baixa' ou 'média' ou 'alta'!" });
+        return res.status(400).send({ message: "Classifique a prioridade como 'baixa' ou 'média' ou 'alta'!" });
     }
 
     if (!Array.isArray(categorias) || categorias.length < 2) {
@@ -60,7 +61,37 @@ usuariosRoutes.post("/", (req, res) => {
     res.send("feedback recebido com sucesso!");
 });
 
+usuariosRoutes.put("/:id", (req, res) => {
+    const { id } = req.params;
+    const { titulo, categorias, prioridade, feedback } = req.body;
 
+    const usuario = usuarios.find((u) => u.id == id);
+
+    if (!usuario) {
+        return res.status(404).json({
+            message: "Usuário não encontrado!",
+        });
+    }
+    
+    if (!titulo || !feedback) {
+        return res.status(404).json({
+            message: "Insira um título ou um feedback válido!",
+        });
+    }
+
+    if(prioridade != "baixa" && prioridade != "média" && prioridade != "alta") {
+        return res.status(400).send({ message: "Classifique a prioridade como 'baixa' ou 'média' ou 'alta'!" });
+    }
+
+    if (!Array.isArray(categorias) || categorias.length < 2) {
+        return res.status(400).send({ message: "O campo 'categorias' deve conter pelo menos duas categorias." });
+    }
+
+    return res.status(200).json({
+        message: `Usuário com id ${id} foi atualizado!`,
+        usuarios,
+    });
+});
 
 export default usuariosRoutes;
 
