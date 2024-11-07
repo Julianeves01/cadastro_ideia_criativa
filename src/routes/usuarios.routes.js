@@ -8,8 +8,20 @@ let usuarios = [
         titulo: "Resenha Tom e Jerry",
         categorias: ["animação", "infantil"],
         prioridade: "baixa",
-        feedback: "",
+        feedback: "muito bom, adorei",
     },
+    {
+        "titulo": "flavinha topper",
+        "categorias": ["animação", "moda", "musical"],
+        "prioridade": "alta",
+        "feedback": "o mais top do brasil"
+    },
+    {
+        "titulo": "os devs",
+        "categorias": ["terror", "acao", "suspense"],
+        "prioridade": "baixa",
+        "feedback": "muito complicado"
+    }
 ]
 
 usuariosRoutes.get("/", (req, res) => {
