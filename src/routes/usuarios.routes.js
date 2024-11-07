@@ -5,10 +5,10 @@ const usuariosRoutes = Router();
 let usuarios = [
     {
         id: Math.floor(Math.random() * 1000000),
-        titulo: "Matuê",
-        categorias: 30,
-        prioridade: "não",
-        feedback: [ "cabelo preto", "pardo", "dread" ],
+        titulo: "Resenha Tom e Jerry",
+        categorias: ["animação", "infantil"],
+        prioridade: "baixa",
+        feedback: "",
     },
 ]
 
@@ -22,13 +22,33 @@ usuariosRoutes.get("/", (req, res) => {
     });
 });
 
-usuarios.post("/", (req, res) => {
+
+
+usuariosRoutes.post("/", (req, res) => {
     const {
         id,
         titulo,
         categorias,
         prioridade,
         feedback
+    } = req.body;
+    
+    if(!titulo || !feedback) {
+        return res.status(400).send({ message: "Insira um título e um feedback válido!" });
     }
-};
+
+    if(prioridade != "baixa" && prioridade != "média" && prioridade != "alta") {
+        return res.status(400).send({ message: "classifique a prioridade como 'baixa' ou 'média' ou 'alta'!" });
+    }
+
+    if (!Array.isArray(categorias) || categorias.length < 2) {
+        return res.status(400).send({ message: "O campo 'categorias' deve conter pelo menos duas categorias." });
+    }
+    
+    res.send("feedback recebido com sucesso!");
+});
+
+
+
 export default usuariosRoutes;
+
