@@ -1,5 +1,5 @@
 class User {
-    constructor( titulo, categorias, prioridade) {
+    constructor( id, titulo, categorias, prioridade) {
         this.id = this.generateId();
         this.titulo = this.titulo;
         this.categorias = categorias;
