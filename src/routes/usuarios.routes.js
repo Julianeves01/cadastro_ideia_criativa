@@ -22,4 +22,13 @@ usuariosRoutes.get("/", (req, res) => {
     });
 });
 
+usuarios.post("/", (req, res) => {
+    const {
+        id,
+        titulo,
+        categorias,
+        prioridade,
+        feedback
+    }
+};
 export default usuariosRoutes;
